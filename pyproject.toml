@@ -22,5 +22,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[tool.setuptools_scm]
+write_to = "_version.py"
+
 [tool.setuptools.dynamic]
-version = {attr = "lokzz--pylibrary.VERSION"}
+version = {attr = "lokzz-pylibrary.VERSION"}

@@ -24,15 +24,11 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: '3.10.7'
+        fetch-depth: 0
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install build
-    - name: Check out src from Git
-      uses: actions/checkout@v2
-    - name: Get history and tags for SCM versioning to work
-      run: |
-        git fetch --depth=1 origin +refs/tags/*:refs/tags/*
     - name: Build package
       run: python -m build
     - name: Publish package

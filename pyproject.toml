@@ -3,8 +3,8 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lokzz-pylibrary"
-version = "1.0"
+name = "lokzz_pylibrary"
+dynamic = ["version"]
 authors = [
     { name="lokzz", email="lokzz@github.com" },
 ]
@@ -21,3 +21,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
+write_to = "_version.py"

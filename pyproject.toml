@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lokzz--pylibrary"
-version = "1.0"
+dynamic = ["version"]
 authors = [
     { name="lokzz", email="lokzz@github.com" },
 ]
@@ -21,3 +21,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+
+[tool.setuptools.dynamic]
+version = {attr = "lokzz--pylibrary.VERSION"}

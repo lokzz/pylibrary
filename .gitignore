@@ -4,4 +4,3 @@ build/
 pypi.token
 envs.bat
 _version.py
-ignore.py

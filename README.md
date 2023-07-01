@@ -1,2 +1,2 @@
-# lokzz--pylibrary
+# lokzz-pylibrary
 my own personal library

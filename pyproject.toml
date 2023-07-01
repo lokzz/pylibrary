@@ -3,7 +3,7 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lokzz--pylibrary"
+name = "lokzz-pylibrary"
 dynamic = ["version"]
 authors = [
     { name="lokzz", email="lokzz@github.com" },

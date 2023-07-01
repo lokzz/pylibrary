@@ -1,0 +1,18 @@
+[project]
+name = "pylibrary"
+version = "1"
+authors = [
+    { name="lokzz", email="lokzz@github.com" },
+]
+description = "personal library"
+readme = "README.md"
+requires-python = ">=3.10.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/lokzz/pylibrary"
+"Bug Tracker" = "https://github.com/lokzz/pylibrary"

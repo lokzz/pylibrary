@@ -2,5 +2,4 @@ dist/
 build/
 *egg*/
 pypi.token
-envs.bat
 _version.py

@@ -1,18 +1,23 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "pylibrary"
-version = "1"
+name = "lokzz--pylibrary"
+version = "1.0"
 authors = [
     { name="lokzz", email="lokzz@github.com" },
 ]
 description = "personal library"
 readme = "README.md"
+license = {text = "BSD-3-Clause"}
 requires-python = ">=3.10.7"
+dependencies = [
+    "clint",
+    "pick",
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
-[project.urls]
-"Homepage" = "https://github.com/lokzz/pylibrary"
-"Bug Tracker" = "https://github.com/lokzz/pylibrary"

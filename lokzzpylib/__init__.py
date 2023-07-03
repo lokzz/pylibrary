@@ -36,23 +36,22 @@ def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'
     sep = ''
     for i in range(sepL):
         sep =+ sepC
-        with indent(BegL, quote=Beg):
-            if f == False:
-                puts(colored.blue(n) + sep + d)
-            else:
-                puts(colored.blue(d) + sep + n)
+    with indent(BegL, quote=Beg):
+        if f == False:
+            puts(colored.blue(n) + sep + d)
+        else:
+            puts(colored.blue(d) + sep + n)
 
 def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.red('>>|'), BegL = 4):
     if A == True:
         sep = ''
         for i in range(sepL):
             sep =+ sepC
-        
         with indent(BegL, quote=Beg):
-                if f == False:
-                    puts(colored.blue(n) + sep + d)
-                else:
-                    puts(colored.blue(d) + sep + n)
+            if f == False:
+                puts(colored.blue(n) + sep + d)
+            else:
+                puts(colored.blue(d) + sep + n)
 
 if __name__ == '__main__':
     exit()

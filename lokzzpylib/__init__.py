@@ -33,16 +33,15 @@ def ask_int(prompt):
         except ValueError:
             print("not a number")
 
-def printc(n, d = '', f = False, sepL = 0, sepC = ' '):
+def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4):
     sep = ''
     for i in range(sepL):
         sep =+ sepC
-    if not f:
-        with indent(4, quote=colored.green("//|")):
-            puts(colored.blue(n) + sep + d)
-    else:
-        with indent(4, quote=colored.green("//|")):
-            puts(colored.blue(d) + sep + n)
+        with indent(BegL, quote=Beg):
+            if not f:
+                puts(colored.blue(n) + sep + d)
+            else:
+                puts(colored.blue(d) + sep + n)
 
 def clearsc():
     if name == 'nt':

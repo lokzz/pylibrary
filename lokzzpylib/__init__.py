@@ -2,8 +2,6 @@ from clint.textui import puts, colored, indent
 from os import system, name
 from pick import pick
 
-global enabledebugP
-
 class Choice(object):
     def __init__(self, index, option):
         self.index = index
@@ -45,8 +43,8 @@ def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'
             else:
                 puts(colored.blue(d) + sep + n)
 
-def printd(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.red('>>|'), BegL = 4):
-    if enabledebugP == True:
+def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.red('>>|'), BegL = 4):
+    if A == True:
         sep = ''
         for i in range(sepL):
             sep =+ sepC

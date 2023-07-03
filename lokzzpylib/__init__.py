@@ -47,7 +47,8 @@ def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.
         sep = ''
         for i in range(sepL):
             sep =+ sepC
-            with indent(BegL, quote=Beg):
+        
+        with indent(BegL, quote=Beg):
                 if f == False:
                     puts(colored.blue(n) + sep + d)
                 else:

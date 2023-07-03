@@ -1,4 +1,5 @@
 from clint.textui import puts, colored, indent
+from os import system, name
 from pick import pick
 
 class Choice(object):
@@ -42,6 +43,12 @@ def printc(n, d = '', f = False, sepL = 0, sepC = ' '):
     else:
         with indent(4, quote=colored.green("//|")):
             puts(colored.blue(d) + sep + n)
+
+def clear():
+    if name == 'nt':
+        _ = system('cls')
+     else:
+        _ = system('clear')
 
 if __name__ == '__main__':
     exit()

@@ -44,10 +44,10 @@ def printc(n, d = '', f = False, sepL = 0, sepC = ' '):
         with indent(4, quote=colored.green("//|")):
             puts(colored.blue(d) + sep + n)
 
-def clear():
+def clearsc():
     if name == 'nt':
         _ = system('cls')
-     else:
+    else:
         _ = system('clear')
 
 if __name__ == '__main__':

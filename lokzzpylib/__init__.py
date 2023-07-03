@@ -37,7 +37,7 @@ def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'
     for i in range(sepL):
         sep =+ sepC
         with indent(BegL, quote=Beg):
-            if not f:
+            if f == False:
                 puts(colored.blue(n) + sep + d)
             else:
                 puts(colored.blue(d) + sep + n)
@@ -48,7 +48,7 @@ def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.
         for i in range(sepL):
             sep =+ sepC
             with indent(BegL, quote=Beg):
-                if not f:
+                if f == False:
                     puts(colored.blue(n) + sep + d)
                 else:
                     puts(colored.blue(d) + sep + n)

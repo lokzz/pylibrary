@@ -1,5 +1,8 @@
 from clint.textui import puts, colored, indent
 from pick import pick
+import colorama
+
+colorama.init()
 
 class Choice(object):
     def __init__(self, index, option):
@@ -52,6 +55,9 @@ def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.
                 puts(colored.blue(n) + sep + d)
             else:
                 puts(colored.blue(d) + sep + n)
+
+def clearsc():
+    print('\033[2J')
 
 if __name__ == '__main__':
     exit()

@@ -56,8 +56,12 @@ def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.
             else:
                 puts(colored.blue(d) + sep + n)
 
-def clearsc():
-    print('\033[2J')
+def clearsc(type=1):
+    if type == 1:
+        print('\033[2J')
+    elif type == 2:
+        for i in range(25):
+            print('\n')
 
 if __name__ == '__main__':
     exit()

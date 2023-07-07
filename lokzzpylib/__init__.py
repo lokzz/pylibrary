@@ -1,6 +1,7 @@
 from clint.textui import puts, colored, indent
 from pick import pick
 import colorama
+import keyboard
 
 colorama.init()
 
@@ -62,6 +63,10 @@ def clearsc(type=1):
     elif type == 2:
         for i in range(25):
             print('\n')
+
+def clearinp(t = 25):
+    for i in range(t):
+        keyboard.press_and_release("\b")
 
 if __name__ == '__main__':
     exit()

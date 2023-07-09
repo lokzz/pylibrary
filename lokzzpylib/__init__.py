@@ -2,6 +2,12 @@ from clint.textui import puts, colored, indent
 from pick import pick
 import colorama
 import keyboard
+try:
+    import msvcrt
+    windows = True
+except:
+    windows = False
+    pass
 
 colorama.init()
 
@@ -56,6 +62,12 @@ def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.
                 puts(colored.blue(n) + sep + d)
             else:
                 puts(colored.blue(d) + sep + n)
+
+def wind_getonekey():
+    if windows != True:
+        return
+    out = msvcrt.getch()
+    return out
 
 def clearsc(type=1):
     if type == 1:

@@ -16,8 +16,8 @@ class Choice(object):
         self.index = index
         self.option = option
 
-def choose_from_list(title, options):
-    option, index = pick(options, title)
+def choose_from_list(title, options, indi = "*", minselcont = 1):
+    option, index = pick(options, title, indi, min_selection_count=minselcont)
     index += 1
     return Choice(index, option)
 

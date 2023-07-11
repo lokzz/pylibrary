@@ -77,9 +77,11 @@ def clearsc(type=1):
         for i in range(25):
             print('\n')
 
-def clearinp(t = 25):
+def clearinp(t = 25, e = False):
     for i in range(t):
         keyboard.press_and_release("\b")
+        if e == True:
+            printc("on the" + str(i + 1) + "th press")
 
 if __name__ == '__main__':
     exit()

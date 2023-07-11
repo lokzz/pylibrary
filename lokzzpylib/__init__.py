@@ -66,7 +66,7 @@ def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.
 def wind_getonekey():
     if windows != True:
         return
-    out = msvcrt.getch()
+    out = str(msvcrt.getch(), 'utf-8')
     return out
 
 def clearsc(type=1):

@@ -63,10 +63,11 @@ def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.
             else:
                 puts(colored.blue(d) + sep + n)
 
-def wind_getonekey():
+def wind_getonekey(f = True):
     if windows != True:
         return
-    out = str(msvcrt.getch(), 'utf-8')
+    if f: out = str(msvcrt.getch(), 'utf-8')
+    else: out = msvcrt.getch()
     return out
 
 def clearsc(type=1):

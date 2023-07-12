@@ -81,7 +81,7 @@ def clearinp(t = 25, e = False):
     for i in range(t):
         keyboard.press_and_release("\b")
         if e == True:
-            printc("on the" + str(i + 1) + " backspace")
+            printc("on the " + str(i + 1) + " backspace")
 
 if __name__ == '__main__':
     exit()

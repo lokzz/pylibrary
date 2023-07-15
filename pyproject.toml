@@ -17,7 +17,6 @@ dependencies = [
     "keyboard",
     "clint",
     "numpy",
-    "time",
     "pick",
 ]
 

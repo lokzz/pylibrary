@@ -13,9 +13,15 @@ readme = "README.md"
 license = {text = "BSD-3-Clause"}
 requires-python = ">=3.10.7"
 dependencies = [
+    "colorama",
+    "keyboard",
+    "random",
     "clint",
+    "numpy",
+    "time",
     "pick",
 ]
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

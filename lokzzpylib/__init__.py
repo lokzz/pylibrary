@@ -2,6 +2,9 @@ from clint.textui import puts, colored, indent
 from pick import pick
 import colorama
 import keyboard
+import random
+import numpy
+import time
 try:
     import msvcrt
     windows = True
@@ -62,6 +65,32 @@ def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.
                 puts(colored.blue(n) + sep + d)
             else:
                 puts(colored.blue(d) + sep + n)
+
+def cool_spam(long, amount, lines = 1, delay = 0.01, normal = "-", unnormal = "#", reverse = False, c = True):
+    long = int(numpy.floor(long))
+    amount = int(numpy.floor(amount))
+    if amount >= long: amount = long
+    for i in range(lines):
+        at = []
+        txt = []
+        if reverse: normalO = unnormal; unnormalO = normal
+        else: normalO = normal; unnormalO = unnormal
+        for i in range(long): txt.append(normalO)
+        for i in range(amount): 
+            add = random.randint(1, long)
+            while True:
+                try:
+                    if add in at:
+                        add = random.randint(1, long)
+                    else:
+                        at.append(add)
+                        break
+                except ValueError:
+                    continue
+        for i in at: txt[i - 1] = unnormalO
+        if c: printc("".join(txt))
+        else: print("".join(txt))
+        time.sleep(delay)
 
 def wind_getonekey(f = True):
     if windows != True:

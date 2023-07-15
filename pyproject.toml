@@ -15,7 +15,6 @@ requires-python = ">=3.10.7"
 dependencies = [
     "colorama",
     "keyboard",
-    "random",
     "clint",
     "numpy",
     "time",

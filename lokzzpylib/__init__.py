@@ -92,6 +92,11 @@ def cool_spam(long, amount, lines = 1, delay = 0.01, normal = "-", unnormal = "#
         else: print("".join(txt))
         time.sleep(delay)
 
+def coolsleep(sleep_time, step=1):
+    for _ in range(sleep_time, 0, (-1)*step):
+        print('\r{} sec left'.format(_), end='')
+        time.sleep(step)
+
 def wind_getonekey(f = True):
     if windows != True:
         return

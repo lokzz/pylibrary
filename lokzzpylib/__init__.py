@@ -32,11 +32,10 @@ def progress_bar(current, total, name="Progress", bar_length=50):
     print(f'{name}: [{arrow}{padding}] {int(fraction*100)}%', end=ending)
 
 def ask_bool(prompt):
-    while True:
-        try:
-            return {"true":True,"yes":True,"y":True,"false":False,"no":False,"n":False}[input(prompt).lower()]
-        except KeyError:
-            print("invalid input")
+    try:
+        return {"true":True,"yes":True,"y":True,"false":False,"no":False,"n":False}[input(prompt).lower()]
+    except KeyError:
+        print("invalid input")
 
 def ask_int(prompt):
     while True:

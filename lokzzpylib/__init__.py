@@ -44,15 +44,15 @@ def ask_int(prompt):
         except ValueError:
             print("not a number")
 
-def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4):
+def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
     sep = ''
     for i in range(sepL):
         sep =+ sepC
     with indent(BegL, quote=Beg):
         if f == False:
-            puts(colored.blue(n) + sep + d)
+            puts(colored.blue(n) + sep + d + end, newline=False)
         else:
-            puts(colored.blue(d) + sep + n)
+            puts(colored.blue(d) + sep + n + end, newline=False)
 
 def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.red('>>|'), BegL = 4):
     if A == True:
@@ -90,11 +90,6 @@ def cool_spam(long, amount, lines = 1, delay = 0.01, normal = "-", unnormal = "#
         if c: printc("".join(txt))
         else: print("".join(txt))
         time.sleep(delay)
-
-def coolsleep(sleep_time, step=1):
-    for _ in range(sleep_time, 0, (-1)*step):
-        print('\r{} sec left'.format(_), end='')
-        time.sleep(step)
 
 def wind_getonekey(f = True):
     if windows != True:

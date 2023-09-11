@@ -92,6 +92,7 @@ def cool_spam(long, amount, lines = 1, delay = 0.01, normal = "-", unnormal = "#
         time.sleep(delay)
 
 def wind_getonekey(f = True):
+    global windows
     if windows != True:
         return
     if f: out = str(msvcrt.getch(), 'utf-8')

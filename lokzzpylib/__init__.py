@@ -54,6 +54,15 @@ def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'
         else:
             puts(colored.blue(d) + sep + n + end, newline=False)
 
+def stringc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
+    sep = ''
+    for i in range(sepL):
+        sep =+ sepC
+    if f == False:
+        return str(colored.blue(n) + sep + d + end, newline=False)
+    else:
+        return str(colored.blue(d) + sep + n + end, newline=False)
+
 def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.red('>>|'), BegL = 4):
     if A == True:
         sep = ''

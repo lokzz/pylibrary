@@ -58,7 +58,7 @@ def stringc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|
     sep, air = '', ""
     for i in range(sepL): sep =+ sepC
     BegL = BegL - len(Beg)
-    for i in range(BegL): air =+ " "
+    for i in range(BegL): air = air + " "
     if f == False:
         return str(Beg + air + colored.blue(n) + sep + d + end)
     else:

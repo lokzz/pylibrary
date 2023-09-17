@@ -55,7 +55,7 @@ def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'
             puts(colored.blue(d) + sep + n + end, newline=False)
 
 def stringc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
-    sep = ''
+    sep, air = '', ''
     for i in range(sepL): sep =+ sepC
     BegL = BegL - len(Beg)
     for i in range(BegL): air =+ ' '

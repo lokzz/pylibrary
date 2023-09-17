@@ -59,9 +59,9 @@ def stringc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|
     for i in range(sepL):
         sep =+ sepC
     if f == False:
-        return str(colored.blue(n) + sep + d + end, newline=False)
+        return str(colored.blue(n) + sep + d + end)
     else:
-        return str(colored.blue(d) + sep + n + end, newline=False)
+        return str(colored.blue(d) + sep + n + end)
 
 def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.red('>>|'), BegL = 4):
     if A == True:

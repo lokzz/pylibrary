@@ -1,6 +1,7 @@
 dist/
 build/
 *egg*/
+.idea/
 pypi.token
 _version.py
 test

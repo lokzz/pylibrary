@@ -4,5 +4,3 @@ build/
 .idea/
 .vscode/
 pypi.token
-_version.py
-test

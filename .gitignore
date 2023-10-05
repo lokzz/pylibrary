@@ -1,5 +1,3 @@
-dist/
-build/
 *egg*/
 .idea/
 .vscode/

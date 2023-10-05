@@ -2,7 +2,7 @@ dist/
 build/
 *egg*/
 .idea/
+.vscode/
 pypi.token
 _version.py
 test
-.vscode

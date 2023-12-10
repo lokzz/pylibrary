@@ -24,6 +24,12 @@ def choose_from_list(title, options, indi = "*", minselcont = 1):
     index += 1
     return Choice(index, option)
 
+def isdebug(args):
+    args.pop(0)
+    if len(args) >= 1:
+        if '-d' in args: return True
+    return False
+
 def progress_bar(current, total, name="Progress", bar_length=50):
     fraction = current / total
     arrow = int(fraction * bar_length - 1) * '-' + '>'

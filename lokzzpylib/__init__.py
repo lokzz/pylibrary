@@ -46,8 +46,9 @@ def ask_int(prompt):
         try: return int(input(prompt))
         except ValueError: print("not a number")
 
-def printc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
-    sep = ''
+def printc(n, *d, f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
+    sep, w = '', ''
+    for z in d: w += z + ' '
     for i in range(sepL):
         sep =+ sepC
     with indent(BegL, quote=Beg):

@@ -48,7 +48,7 @@ def ask_int(prompt):
 
 def printc(n, *d, f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
     sep, w = '', ''
-    for z in d: w = w.__add__(str(str(z) + ' '))
+    for z in d: w = w.__add__(str(z))
     for i in range(sepL): sep =+ sepC
     with indent(BegL, quote=Beg):
         if f == False: puts(colored.blue(n) + sep + w + end, newline=False)

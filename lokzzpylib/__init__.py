@@ -52,8 +52,8 @@ def printc(n, *d, f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), B
     for i in range(sepL):
         sep =+ sepC
     with indent(BegL, quote=Beg):
-        if f == False: puts(colored.blue(n) + sep + d + end, newline=False)
-        else: puts(colored.blue(d) + sep + n + end, newline=False)
+        if f == False: puts(colored.blue(n) + sep + w + end, newline=False)
+        else: puts(colored.blue(w) + sep + n + end, newline=False)
 
 def stringc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
     sep, air = '', ""

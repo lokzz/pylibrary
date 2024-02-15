@@ -1,4 +1,5 @@
 from clint.textui import puts, colored, indent
+from threading import Timer
 from pick import pick
 import colorama
 import keyboard
@@ -23,6 +24,31 @@ def choose_from_list(title, options, indi = "*", minselcont = 1):
     option, index = pick(options, title, indi, min_selection_count=minselcont)
     index += 1
     return Choice(index, option)
+
+class RepeatedTimer(object): # not mine :)
+    def __init__(self, interval, function, *args, **kwargs):
+        self._timer     = None
+        self.interval   = interval
+        self.function   = function
+        self.args       = args
+        self.kwargs     = kwargs
+        self.is_running = False
+        self.start()
+
+    def _run(self):
+        self.is_running = False
+        self.start()
+        self.function(*self.args, **self.kwargs)
+
+    def start(self):
+        if not self.is_running:
+            self._timer = Timer(self.interval, self._run)
+            self._timer.start()
+            self.is_running = True
+
+    def stop(self):
+        self._timer.cancel()
+        self.is_running = False
 
 def isdebug(args):
     args.pop(0)

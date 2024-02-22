@@ -64,8 +64,9 @@ def progress_bar(current, total, name="Progress", bar_length=50):
     print(f'{name}: [{arrow}{padding}] {int(fraction*100)}%', end=ending)
 
 def ask_bool(prompt):
-    try: return {"true":True,"yes":True,"y":True,"false":False,"no":False,"n":False}[input(prompt).lower()]
-    except KeyError: print("invalid input")
+    while True:
+        try: return {"true":True,"yes":True,"y":True,"false":False,"no":False,"n":False}[input(prompt).lower()]
+        except KeyError: print("true/false, yes/no, y/n, (not an accepted option)")
 
 def ask_int(prompt):
     while True:
@@ -91,8 +92,7 @@ def stringc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|
 def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.red('>>|'), BegL = 4):
     if A == True:
         sep = ''
-        for i in range(sepL):
-            sep =+ sepC
+        for i in range(sepL): sep =+ sepC
         with indent(BegL, quote=Beg):
             if f == False: puts(colored.blue(n) + sep + d)
             else: puts(colored.blue(d) + sep + n)

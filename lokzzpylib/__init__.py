@@ -1,37 +1,31 @@
 from clint.textui import puts, colored, indent
 from threading import Timer
 from pick import pick
-import colorama
-import keyboard
-import random
-import numpy
-import time
-try:
-    import msvcrt
-    windows = True
-except:
-    windows = False
-    pass
+import colorama, keyboard, random, numpy, time
+
+try: import msvcrt
+except ImportError: windows = False
+else: windows = True
 
 colorama.init()
 
-class Choice(object):
-    def __init__(self, index, option):
+class Choice:
+    def __init__(self, index: int, option: str):
         self.index = index
         self.option = option
 
-def choose_from_list(title, options, indi = "*", minselcont = 1):
+def choose_from_list(title: str, options: list, indi: str = "*", minselcont: int = 1) -> Choice:
     option, index = pick(options, title, indi, min_selection_count=minselcont)
     index += 1
     return Choice(index, option)
 
-class RepeatedTimer(object): # not mine :)
-    def __init__(self, interval, function, *args, **kwargs):
-        self._timer     = None
-        self.interval   = interval
-        self.function   = function
-        self.args       = args
-        self.kwargs     = kwargs
+class RepeatedTimer:
+    def __init__(self, interval: float, function, *args, **kwargs):
+        self._timer = None
+        self.interval = interval
+        self.function = function
+        self.args = args
+        self.kwargs = kwargs
         self.is_running = False
         self.start()
 
@@ -50,93 +44,56 @@ class RepeatedTimer(object): # not mine :)
         self._timer.cancel()
         self.is_running = False
 
-def isdebug(args):
-    args.pop(0)
-    if len(args) >= 1:
-        if '-d' in args: return True
-    return False
+def isdebug(args: list) -> bool: args.pop(0); return '-d' in args
 
-def progress_bar(current, total, name="Progress", bar_length=50):
+def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50):
     fraction = current / total
     arrow = int(fraction * bar_length - 1) * '-' + '>'
     padding = int(bar_length - len(arrow)) * ' '
     ending = '\n' if current >= total else '\r'
     print(f'{name}: [{arrow}{padding}] {int(fraction*100)}%', end=ending)
 
-def ask_bool(prompt):
-    while True:
-        try: return {"true":True,"yes":True,"y":True,"false":False,"no":False,"n":False}[input(prompt).lower()]
-        except KeyError: print("true/false, yes/no, y/n, (not an accepted option)")
+def ask_bool(prompt: str) -> bool:
+    try: return {"true": True, "yes": True, "y": True, "false": False, "no": False, "n": False}[input(prompt).lower()]
+    except KeyError: print("invalid input")
 
-def ask_int(prompt):
+def ask_int(prompt: str) -> int:
     while True:
         try: return int(input(prompt))
         except ValueError: print("not a number")
 
-def printc(n, *d, f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
-    sep, w = '', ''
-    for z in d: w = w.__add__(str(z))
-    for i in range(sepL): sep =+ sepC
+def printc(n: str, *d, f: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n'):
+    sep = sepC * sepL
+    w = ''.join(map(str, d))
     with indent(BegL, quote=Beg):
-        if f == False: puts(colored.blue(n) + sep + w + end, newline=False)
+        if not f: puts(colored.blue(n) + sep + w + end, newline=False)
         else: puts(colored.blue(w) + sep + n + end, newline=False)
 
-def stringc(n, d = '', f = False, sepL = 0, sepC = ' ', Beg = colored.green('//|'), BegL = 4, end = '\n'):
-    sep, air = '', ""
-    for i in range(sepL): sep =+ sepC
-    BegL = BegL - len(Beg)
-    for i in range(BegL): air = air + " "
-    if f == False: return str(Beg + air + colored.blue(n) + sep + d + end)
-    else: return str(Beg + air + colored.blue(d) + sep + n + end)
+def stringc(n: str, d: str = '', f: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n') -> str:
+    sep = sepC * sepL
+    air = " " * (BegL - len(Beg))
+    if not f: return f"{Beg}{air}{colored.blue(n)}{sep}{d}{end}"
+    else: return f"{Beg}{air}{colored.blue(d)}{sep}{n}{end}"
 
-def printd(n, d = '', f = False, A = False, sepL = 0, sepC = ' ', Beg = colored.red('>>|'), BegL = 4):
-    if A == True:
-        sep = ''
-        for i in range(sepL): sep =+ sepC
+def printd(n: str, d: str = '', f: bool = False, A: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.red('>>|'), BegL: int = 4):
+    if A:
+        sep = sepC * sepL
         with indent(BegL, quote=Beg):
-            if f == False: puts(colored.blue(n) + sep + d)
+            if not f: puts(colored.blue(n) + sep + d)
             else: puts(colored.blue(d) + sep + n)
 
-def cool_spam(long, amount, lines = 1, delay = 0.01, normal = "-", unnormal = "#", reverse = False, c = True):
-    long = int(numpy.floor(long))
-    amount = int(numpy.floor(amount))
-    if amount >= long: amount = long
-    for i in range(lines):
-        at = []
-        txt = []
-        if reverse: normalO = unnormal; unnormalO = normal
-        else: normalO = normal; unnormalO = unnormal
-        for i in range(long): txt.append(normalO)
-        for i in range(amount):
-            add = random.randint(1, long)
-            while True:
-                try:
-                    if add in at: add = random.randint(1, long)
-                    else: at.append(add); break
-                except ValueError: continue
-        for i in at: txt[i - 1] = unnormalO
-        if c: printc("".join(txt))
-        else: print("".join(txt))
-        time.sleep(delay)
+def wind_getonekey(f: bool = True) -> str:
+    if not windows: return ''
+    if f: return str(msvcrt.getch(), 'utf-8')
+    else: return msvcrt.getch()
 
-def wind_getonekey(f = True):
-    global windows
-    if windows != True: return
-    if f: out = str(msvcrt.getch(), 'utf-8')
-    else: out = msvcrt.getch()
-    return out
+def clearsc(type: int = 1):
+    if type == 1: print('\033[2J')
+    elif type == 2: print('\n' * 25)
 
-def clearsc(type=1):
-    if type == 1:
-        print('\033[2J')
-    elif type == 2:
-        for i in range(25):
-            print('\n')
-
-def clearinp(t = 25, e = False):
+def clearinp(t: int = 25, e: bool = False):
     for i in range(t):
         keyboard.press_and_release("\b")
-        if e: printc("on the " + str(i + 1) + " backspace")
+        if e: printc(f"on the {i + 1} backspace")
 
-if __name__ == '__main__':
-    exit()
+if __name__ == '__main__': exit()

@@ -19,12 +19,6 @@ def choose_from_list(title: str, options: list, indi: str = "*", minselcont: int
     index += 1
     return Choice(index, option)
 
-def imp_json():
-    try: import ujson as json
-    except ImportError:
-        try: import simplejson as json
-        except ImportError: import json
-
 class RepeatedTimer:
     def __init__(self, interval: float, function, *args, **kwargs):
         self._timer = None

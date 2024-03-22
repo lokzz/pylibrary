@@ -3,7 +3,7 @@ from threading import Timer
 from pick import pick
 import colorama, keyboard, random, numpy, time
 
-try: import msvcrt
+try: import msvcrt, win32console, win32con
 except ImportError: windows = False
 else: windows = True
 
@@ -44,6 +44,22 @@ class RepeatedTimer:
         self._timer.cancel()
         self.is_running = False
 
+class win_buffer():
+    def __init__(self):
+        if not windows: OSError('Not Windows')
+        self.buffer = [win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1), win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)]
+        self.writeto = self.buffer[0]
+
+    def push(self):
+        self.buffer[1] = self.buffer[0]
+        self.buffer[0] = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)
+        self.writeto = self.buffer[0]
+        self.pushing = self.buffer[1]
+        self.pushing.SetConsoleActiveScreenBuffer()
+
+    def addto(self, text: str):
+        self.buffer[0].WriteConsole(text)
+
 def isdebug(args: list) -> bool: args.pop(0); return '-d' in args
 
 def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50):
@@ -62,12 +78,13 @@ def ask_int(prompt: str) -> int:
         try: return int(input(prompt))
         except ValueError: print("not a number")
 
-def printc(n: str, *d, f: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n'):
-    sep = sepC * sepL
-    w = ''.join(map(str, d))
-    with indent(BegL, quote=Beg):
-        if not f: puts(colored.blue(n) + sep + w + end, newline=False)
-        else: puts(colored.blue(w) + sep + n + end, newline=False)
+def printc(n: str, *d, f: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n', stream: None):
+    sep = sepC * sepL; w = ''.join(map(str, d))
+    if not f: outstr = (colored.blue(n) + sep + w + end)
+    else: outstr = (colored.blue(w) + sep + n + end)
+    with indent(BegL, quote=Beg): 
+        if stream == None: puts(outstr, newline=False)
+        else: puts(outstr, stream=stream, newline=False)
 
 def stringc(n: str, d: str = '', f: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n') -> str:
     sep = sepC * sepL

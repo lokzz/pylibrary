@@ -58,7 +58,7 @@ class win_buffer():
         self.pushing.SetConsoleActiveScreenBuffer()
 
     def addto(self, text: str):
-        self.buffer[0].WriteConsole(text)
+        self.writeto.WriteConsole(text)
 
 def isdebug(args: list) -> bool: args.pop(0); return '-d' in args
 

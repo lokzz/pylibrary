@@ -31,6 +31,8 @@ jobs:
         pip install build
     - name: Build package
       run: python -m build --outdir dist/
+    - name: debug (REMOVE THIS LATER)
+      run: ls -R
     - name: Publish package
       uses: https://github.com/pypa/gh-action-pypi-publish@v1.8.14
       with:

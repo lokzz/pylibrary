@@ -58,7 +58,7 @@ class win_buffer():
         self.pushing.SetConsoleActiveScreenBuffer()
 
     def addto(self, text: str):
-        self.writeto.WriteConsole(text)
+        self.buffer[0].WriteConsole(text)
 
 def isdebug(args: list) -> bool: args.pop(0); return '-d' in args
 
@@ -93,11 +93,7 @@ def stringc(n: str, d: str = '', f: bool = False, sepL: int = 0, sepC: str = ' '
     else: return f"{Beg}{air}{colored.blue(d)}{sep}{n}{end}"
 
 def printd(n: str, d: str = '', f: bool = False, A: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.red('>>|'), BegL: int = 4):
-    if A:
-        sep = sepC * sepL
-        with indent(BegL, quote=Beg):
-            if not f: puts(colored.blue(n) + sep + d)
-            else: puts(colored.blue(d) + sep + n)
+    if A: printc(n, d, f, sepL, sepC, Beg, BegL)
 
 def wind_getonekey(f: bool = True) -> str:
     if not windows: return ''

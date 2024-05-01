@@ -85,7 +85,7 @@ def printc(n: str, *d, f: bool = False, nc = False, sepL: int = 0, sepC: str = '
         else: outstr = (colored.blue(n) + sep + w + end)
     else: 
         if nc: outstr = (w + sep + n + end)
-        outstr = (colored.blue(w) + sep + n + end)
+        else: outstr = (colored.blue(w) + sep + n + end)
     with indent(BegL, quote=Beg): 
         if stream == None: puts(outstr, newline=False)
         else: puts(outstr, stream=stream, newline=False)

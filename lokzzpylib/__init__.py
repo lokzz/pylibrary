@@ -104,7 +104,7 @@ def stringc(n: str, d: str = '', f: bool = False, sepL: int = 0, sepC: str = ' '
     else: return f"{Beg}{air}{colored.blue(d)}{sep}{n}{end}"
 
 def printd(n: str, d: str = '', f: bool = False, A: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.red('>>|'), BegL: int = 4):
-    if A: printc(n, d, f, sepL, sepC, Beg, BegL)
+    if A: printc(n, d, f=f, sepL=sepL, sepC=sepC, Beg=Beg, BegL=BegL)
 
 def wind_getonekey(f: bool = True) -> str:
     if not windows: return ''

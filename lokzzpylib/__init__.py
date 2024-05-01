@@ -78,10 +78,14 @@ def ask_int(prompt: str) -> int:
         try: return int(input(prompt))
         except ValueError: print("not a number")
 
-def printc(n: str, *d, f: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n', stream: None = None):
+def printc(n: str, *d, f: bool = False, nc = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n', stream: None = None):
     sep = sepC * sepL; w = ''.join(map(str, d))
-    if not f: outstr = (colored.blue(n) + sep + w + end)
-    else: outstr = (colored.blue(w) + sep + n + end)
+    if not f: 
+        if nc: outstr = (n + sep + w + end)
+        else: outstr = (colored.blue(n) + sep + w + end)
+    else: 
+        if nc: outstr = (w + sep + n + end)
+        outstr = (colored.blue(w) + sep + n + end)
     with indent(BegL, quote=Beg): 
         if stream == None: puts(outstr, newline=False)
         else: puts(outstr, stream=stream, newline=False)

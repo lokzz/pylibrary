@@ -69,6 +69,13 @@ def progress_bar(current: int, total: int, name: str = "Progress", bar_length: i
     ending = '\n' if current >= total else '\r'
     print(f'{name}: [{arrow}{padding}] {int(fraction*100)}%', end=ending)
 
+def progress_bar2(start_time: float, current_time: float = time.time(), timetotal: int = 30, size: int = 1, ljust: int = 4):
+    remains = timetotal - (current_time - start_time)
+    progbarsize = timetotal * size
+    timepassed = (round(remains * size) - progbarsize) * -1
+    progbarstring = '█' * timepassed + '░' * int(progbarsize - timepassed) + ' ' + str(round(remains, 2)).ljust(ljust, '0') + 's'
+    return progbarstring
+
 def ask_bool(prompt: str) -> bool:
     try: return {"true": True, "yes": True, "y": True, "false": False, "no": False, "n": False}[input(prompt).lower()]
     except KeyError: print("invalid input")

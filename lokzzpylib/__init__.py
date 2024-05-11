@@ -60,7 +60,7 @@ class win_buffer():
     def addto(self, text: str):
         self.buffer[0].WriteConsole(text)
 
-def isdebug(args: list) -> bool: args.pop(0); return '-d' in args or '--debug' in args
+def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s
 
 def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50):
     fraction = current / total

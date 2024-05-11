@@ -15,8 +15,7 @@ class Choice:
         self.option = option
 
 def choose_from_list(title: str, options: list, indi: str = "*", minselcont: int = 1) -> Choice:
-    option, index = pick(options, title, indi, min_selection_count=minselcont)
-    index += 1
+    option, index = pick(options, title, indi, min_selection_count=minselcont); index += 1
     return Choice(index, option)
 
 class RepeatedTimer:
@@ -98,8 +97,7 @@ def printc(n: str, *d, f: bool = False, nc = False, sepL: int = 0, sepC: str = '
         else: puts(outstr, stream=stream, newline=False)
 
 def stringc(n: str, d: str = '', f: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n') -> str:
-    sep = sepC * sepL
-    air = " " * (BegL - len(Beg))
+    sep = sepC * sepL; air = " " * (BegL - len(Beg))
     if not f: return f"{Beg}{air}{colored.blue(n)}{sep}{d}{end}"
     else: return f"{Beg}{air}{colored.blue(d)}{sep}{n}{end}"
 

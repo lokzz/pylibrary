@@ -98,7 +98,7 @@ def printc(n: str, *d, f: bool = False, nc = False, sepL: int = 0, sepC: str = '
             if stream == None: puts(outstr, newline=False)
             else: puts(outstr, stream=stream, newline=False)
 
-def makedictcool(thing: dict | list , item_color: object = colored.white, key_color: object = colored.white) -> str:
+def formatdict(thing: dict | list , item_color: object = colored.white, key_color: object = colored.white) -> str:
     if type(thing) == dict:
         retirm = '{ '
         for k, v in thing.items(): retirm += f"{key_color(k)}: {item_color(v)}, "

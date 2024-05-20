@@ -84,7 +84,7 @@ def ask_int(prompt: str) -> int:
         try: return int(input(prompt))
         except ValueError: print("not a number")
 
-def printc(n: str, *d, f: bool = False, nc = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n', stream: None = None):
+def printc(n: str, *d, f: bool = False, nc = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n', returnstring: bool = False, stream: None = None) -> str | None:
     sep = sepC * sepL; w = ''.join(map(str, d))
     if not f: 
         if nc: outstr = (n + sep + w + end)
@@ -92,14 +92,23 @@ def printc(n: str, *d, f: bool = False, nc = False, sepL: int = 0, sepC: str = '
     else: 
         if nc: outstr = (w + sep + n + end)
         else: outstr = (colored.blue(w) + sep + n + end)
-    with indent(BegL, quote=Beg): 
-        if stream == None: puts(outstr, newline=False)
-        else: puts(outstr, stream=stream, newline=False)
+    if returnstring: return outstr
+    else: 
+        with indent(BegL, quote=Beg): 
+            if stream == None: puts(outstr, newline=False)
+            else: puts(outstr, stream=stream, newline=False)
 
-def stringc(n: str, d: str = '', f: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n') -> str:
-    sep = sepC * sepL; air = " " * (BegL - len(Beg))
-    if not f: return f"{Beg}{air}{colored.blue(n)}{sep}{d}{end}"
-    else: return f"{Beg}{air}{colored.blue(d)}{sep}{n}{end}"
+def makedictcool(thing: dict | list , item_color: object = colored.white, key_color: object = colored.white) -> str:
+    if type(thing) == dict:
+        retirm = '{ '
+        for k, v in thing.items(): retirm += f"{key_color(k)}: {item_color(v)}, "
+        retirmo = retirm.removesuffix(', ') + ' }'
+    elif type(thing) == list:
+        retirm = '[ '
+        for i in thing: retirm += f"{item_color(i)}, "
+        retirmo = retirm.removesuffix(', ') + ' ]'
+    else: raise ValueError(f"{type(thing)} is not a dict or list >> '{thing}'")
+    return retirmo
 
 def printd(n: str, d: str = '', f: bool = False, A: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.red('>>|'), BegL: int = 4):
     if A: printc(n, d, f=f, sepL=sepL, sepC=sepC, Beg=Beg, BegL=BegL)

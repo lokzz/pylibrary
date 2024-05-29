@@ -1,7 +1,7 @@
 from clint.textui import puts, colored, indent
 from threading import Timer
 from pick import pick
-import colorama, keyboard, random, numpy, time
+import colorama, keyboard, random, numpy, time, io
 
 try: import msvcrt, win32console, win32con
 except ImportError: windows = False
@@ -58,6 +58,28 @@ class win_buffer():
 
     def addto(self, text: str):
         self.buffer[0].WriteConsole(text)
+
+class slowprint(io.StringIO):
+    def __init__(self, delay: int = 0.1):
+        self.queue = []
+        
+        self.timerctl = RepeatedTimer(delay, function=self._go)
+        self.timerctl.start()
+    
+    def write(self, text: str):
+        self.queue.append(text)
+
+    def _go(self):
+        if self.queue.__len__() > 0: puts(self.queue[0], newline=False); self.queue.pop(0)
+    
+    def _checkandstopit(self):
+        if self.queue.__len__() == 0: 
+            self.timerctl.stop()
+            self.stoptimer.stop()
+    
+    def getreadytostop(self):
+        self.stoptimer = RepeatedTimer(1, function=self._checkandstopit)
+        self.stoptimer.start()
 
 def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s
 

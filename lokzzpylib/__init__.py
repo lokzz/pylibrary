@@ -62,23 +62,33 @@ class win_buffer():
 class slowprint(io.StringIO):
     def __init__(self, delay: int = 0.1):
         self.queue = []
+        self.delay = delay
+        self.doshit, self.stopdo = True, False
         
-        self.timerctl = RepeatedTimer(delay, function=self._go)
+        self.timerctl = threading.Thread(target=self._do)
+        self.timerctl.daemon = True
         self.timerctl.start()
     
     def write(self, text: str):
         self.queue.append(text)
 
-    def _go(self):
-        if self.queue.__len__() > 0: puts(self.queue[0], newline=False); self.queue.pop(0)
-    
-    def _checkandstopit(self):
+    def _do(self):
+        while self.doshit:
+            if self.queue.__len__() > 0: 
+                puts(self.queue[0], newline=False)
+                self.queue.pop(0)
+                time.sleep(self.delay)
+        else:
+            if self.stopdo: return
+
+    def _stop(self):
         if self.queue.__len__() == 0: 
-            self.timerctl.stop()
+            self.doshit = False
+            self.stopdo = True
             self.stoptimer.stop()
     
     def getreadytostop(self):
-        self.stoptimer = RepeatedTimer(1, function=self._checkandstopit)
+        self.stoptimer = RepeatedTimer(0.1, function=self._stop)
         self.stoptimer.start()
 
 def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s

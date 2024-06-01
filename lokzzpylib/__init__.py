@@ -1,7 +1,7 @@
 from clint.textui import puts, colored, indent
 from threading import Timer
 from pick import pick
-import threading, colorama, keyboard, random, numpy, time, io
+import threading, colorama, keyboard, random, time, io
 
 try: import msvcrt, win32console, win32con
 except ImportError: windows = False

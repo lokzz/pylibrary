@@ -93,12 +93,15 @@ class slowprint(io.StringIO):
 
 def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s
 
-def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50):
+def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50, juststring: bool = False):
     fraction = current / total
     arrow = int(fraction * bar_length - 1) * '-' + '>'
     padding = int(bar_length - len(arrow)) * ' '
-    ending = '\n' if current >= total else '\r'
-    print(f'{name}: [{arrow}{padding}] {int(fraction*100)}%', end=ending)
+    endst = f'{name}: [{arrow}{padding}] {int(fraction*100)}%'
+    if juststring: return endst
+    else: 
+        ending = '\n' if current >= total else '\r'
+        print(endst, end=ending)
 
 def progress_bar2(start_time: float, current_time: float = time.time(), timetotal: int = 30, size: int = 1, ljust: int = 4):
     remains = timetotal - (current_time - start_time)

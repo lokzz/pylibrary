@@ -97,7 +97,7 @@ def progress_bar(current: int, total: int, name: str = "Progress", bar_length: i
     fraction = current / total
     arrow = int(fraction * bar_length - 1) * '-' + '>'
     padding = int(bar_length - len(arrow)) * ' '
-    endst = f'{name}: [{arrow}{padding}] {int(fraction*100)}%'
+    endst = f'{name}: [{arrow}{padding}] {int(fraction*100)}%'.removeprefix(': ' if name.__len__() == 0 else '')
     if juststring: return endst
     else: 
         ending = '\n' if current >= total else '\r'

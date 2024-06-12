@@ -93,10 +93,10 @@ class slowprint(io.StringIO):
 
 def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s
 
-def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50, juststring: bool = False):
+def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50, juststring: bool = False, arrow: str = '>', dash: str = '-', pad: str = ' '):
     fraction = current / total
-    arrow = int(fraction * bar_length - 1) * '-' + '>'
-    padding = int(bar_length - len(arrow)) * ' '
+    arrow = int(fraction * bar_length - 1) * dash + arrow
+    padding = int(bar_length - len(arrow)) * pad
     endst = f'{name}: [{arrow}{padding}] {int(fraction*100)}%'.removeprefix(': ' if name.__len__() == 0 else '')
     if juststring: return endst
     else: 

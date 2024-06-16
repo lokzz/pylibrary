@@ -1,4 +1,5 @@
 *egg*/
 .idea/
 .vscode/
+build/
 pypi.token

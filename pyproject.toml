@@ -11,7 +11,7 @@ authors = [
 description = "personal library"
 readme = "README.md"
 license = {text = "BSD-3-Clause"}
-requires-python = ">=3.10.7"
+requires-python = ">=3"
 dependencies = [
     "colorama",
     "keyboard",

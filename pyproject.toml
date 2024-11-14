@@ -4,7 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lokzzpylib"
-dynamic = ["version"]
+version = "0.2"
+# dynamic = ["version"]
 authors = [
     { name="lokzz", email="lokzz@github.com" },
 ]

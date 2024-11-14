@@ -55,9 +55,9 @@ class win_buffer():
         self.writeto = self.buffer[0]
         self.pushing = self.buffer[1]
         self.pushing.SetConsoleActiveScreenBuffer()
-
-    def addto(self, text: str):
-        self.buffer[0].WriteConsole(text)
+    
+    def write(self, text: str = ''):
+        self.writeto.WriteConsole(text)
 
 class slowprint(io.StringIO):
     def __init__(self, delay: int = 0.1):

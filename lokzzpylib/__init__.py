@@ -1,9 +1,12 @@
 from clint.textui import puts, colored, indent
 from threading import Timer
 from pick import pick
-import threading, colorama, keyboard, random, queue, time, io
+import threading, colorama, keyboard, queue, time, io
 
-try: import msvcrt, win32console, win32con
+import atexit, sys
+from blessed import Terminal
+
+try: import msvcrt
 except ImportError: windows = False
 else: windows = True
 
@@ -43,21 +46,144 @@ class RepeatedTimer:
         self._timer.cancel()
         self.is_running = False
 
-class win_buffer():
-    def __init__(self):
-        if not windows: OSError('Not Windows')
-        self.buffer = [win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1), win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)]
-        self.writeto = self.buffer[0]
-
-    def push(self):
-        self.buffer[1] = self.buffer[0]
-        self.buffer[0] = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)
-        self.writeto = self.buffer[0]
-        self.pushing = self.buffer[1]
-        self.pushing.SetConsoleActiveScreenBuffer()
+## TAG::AI generated code <AI>\
+class FrameBuffer:
+    def __init__(self, term: Terminal = Terminal()):
+        self.term = term
+        self.current_frame = ""  # Current frame being built
+        self.last_frame = ""    # Last frame that was displayed
+        self.cursor_x = 0       # Track cursor x position
+        self.cursor_y = 0       # Track cursor y position
+        self._valid = True      # Track if buffer is still valid
+        self._setup_cleanup()
+        self._clear_initial()
+    
+    def _validate(self):
+        """Check if buffer is still valid"""
+        if not self._valid:
+            raise RuntimeError("FrameBuffer has been destroyed and cannot be used")
+    
+    def destroy(self):
+        """Cleanup and invalidate the buffer"""
+        if self._valid:
+            self._cleanup()
+            # Unregister from atexit to prevent double cleanup
+            atexit.unregister(self._cleanup)
+            # Clear references
+            self.term = None
+            self.current_frame = None
+            self.last_frame = None
+            self._valid = False
+    
+    def _setup_cleanup(self):
+        """Set up cleanup handlers"""
+        atexit.register(self._cleanup)
+    
+    def _signal_handler(self, signum, frame):
+        """Handle interrupt signals"""
+        self._cleanup()
+        sys.exit(0)
+    
+    def _cleanup(self):
+        """Restore terminal state"""
+        try:
+            # Reset all colors and attributes
+            print(self.term.normal + self.term.normal_cursor, end='')
+            # Move to bottom and add newline
+            print(self.term.move_xy(0, self.term.height-1) + '\n', end='')
+            sys.stdout.flush()
+        except:
+            # If anything fails during cleanup, make a last-ditch effort
+            try:
+                print('\033[0m\033[?25h\n', end='')
+                sys.stdout.flush()
+            except:
+                pass
+    
+    def _clear_initial(self):
+        """Clear any existing text on screen during initialization"""
+        # First push everything up
+        print('\n' * self.term.height, end='')
+        # Then clear everything
+        for y in range(self.term.height):
+            print(self.term.move_xy(0, y) + ' ' * self.term.width, end='')
+        # Move back to top
+        print(self.term.move_xy(0, 0), end='')
+        sys.stdout.flush()
+    
+    def add(self, string):
+        """Add string to current frame buffer"""
+        self._validate()
+        self.current_frame += str(string)
+        return self
     
     def write(self, text: str = ''):
-        self.writeto.WriteConsole(text)
+        """Support for print(text, file=buffer)"""
+        self._validate()
+        if isinstance(text, str):
+            self.add(text)
+        else:
+            self.add(str(text))
+        return self
+    
+    # def flush(self):
+    #     """Support for print(text, file=buffer), removed because this literally clears the frame before it"""
+    #     self.push()
+    #     return self
+    
+    def _move_to(self, x, y):
+        """Move cursor to position"""
+        self._validate()
+        self.cursor_x = x
+        self.cursor_y = y
+        return self.term.move_xy(x, y)
+    
+    def push(self):
+        """Calculate difference between frames and update display"""
+        self._validate()
+        if not self.current_frame and not self.last_frame:
+            return self
+        
+        # Split frames into lines
+        current_lines = self.current_frame.split('\n')
+        last_lines = self.last_frame.split('\n')
+        
+        # Calculate the maximum number of lines in both frames
+        max_lines = max(len(current_lines), len(last_lines))
+        
+        # Extend both line lists to the same length
+        current_lines.extend([''] * (max_lines - len(current_lines)))
+        last_lines.extend([''] * (max_lines - len(last_lines)))
+        
+        # Process each line
+        for y, (current, last) in enumerate(zip(current_lines, last_lines)):
+            if current != last:
+                # Clear the old line
+                if last:
+                    print(self.term.move_xy(0, y) + ' ' * self.term.width, end='')
+                # Write the new line
+                if current:
+                    print(self.term.move_xy(0, y) + current, end='')
+        
+        # Clear any remaining lines to the bottom of terminal
+        for y in range(max_lines, self.term.height):
+            print(self.term.move_xy(0, y) + ' ' * self.term.width, end='')
+        
+        # Store current frame as last frame
+        self.last_frame = self.current_frame
+        # Clear current frame
+        self.current_frame = ""
+        
+        # Reset colors after each frame
+        print(self.term.normal, end='')
+        
+        # Move cursor to bottom
+        print(self.term.move_xy(0, self.term.height-1), end='')
+        
+        sys.stdout.flush()
+        return self
+## TAG::</AI>
+
 
 class slowprint(io.StringIO):
     def __init__(self, delay: int = 0.1):

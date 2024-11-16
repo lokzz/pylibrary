@@ -46,7 +46,7 @@ class RepeatedTimer:
         self._timer.cancel()
         self.is_running = False
 
-## TAG::AI generated code <AI>
+## TAG::<AI> (AI generated code)
 class FrameBuffer:
     def __init__(self, term: Terminal = Terminal()):
         self.term = term

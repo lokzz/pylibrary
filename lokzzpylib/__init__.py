@@ -184,6 +184,21 @@ class FrameBuffer:
         return self
 ## TAG::</AI>
 
+class win_buffer():
+    def __init__(self):
+        if not windows: OSError('Not Windows')
+        self.buffer = [win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1), win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)]
+        self.writeto = self.buffer[0]
+
+    def push(self):
+        self.buffer[1] = self.buffer[0]
+        self.buffer[0] = win32console.CreateConsoleScreenBuffer(DesiredAccess = win32con.GENERIC_READ | win32con.GENERIC_WRITE, ShareMode=0, SecurityAttributes=None, Flags=1)
+        self.writeto = self.buffer[0]
+        self.pushing = self.buffer[1]
+        self.pushing.SetConsoleActiveScreenBuffer()
+
+    def write(self, text: str)
+        self.writeto.WriteConsole(text)
 
 class slowprint(io.StringIO):
     def __init__(self, delay: int = 0.1):

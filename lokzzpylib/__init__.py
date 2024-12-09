@@ -1,7 +1,7 @@
 from clint.textui import puts, colored, indent
 from threading import Timer
 from pick import pick
-import threading, colorama, keyboard, queue, time, io
+import threading, colorama, keyboard, random, queue, time, io
 
 import atexit, sys
 from blessed import Terminal

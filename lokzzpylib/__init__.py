@@ -6,7 +6,7 @@ import threading, colorama, keyboard, random, queue, time, io
 import atexit, sys
 from blessed import Terminal
 
-try: import msvcrt
+try: import msvcrt, win32con, win32console
 except ImportError: windows = False
 else: windows = True
 
@@ -197,7 +197,7 @@ class win_buffer():
         self.pushing = self.buffer[1]
         self.pushing.SetConsoleActiveScreenBuffer()
 
-    def write(self, text: str)
+    def write(self, text: str):
         self.writeto.WriteConsole(text)
 
 class slowprint(io.StringIO):

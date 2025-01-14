@@ -239,7 +239,7 @@ class time_clc:
         if speak_on_start: print(f"[{self.name}]")
     def __enter__(self):
         return self
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self):
         self.end = time.time()
         print(f"[{self.name}] took {self.end - self.start:.3f}s")
 

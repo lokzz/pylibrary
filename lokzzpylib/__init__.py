@@ -232,6 +232,18 @@ class slowprint(io.StringIO):
         self.stoptimer = RepeatedTimer(0.1, function=self._stop)
         self.stoptimer.start()
 
+class time_clc:
+    def __init__(self, name = "", speak_on_start = False):
+        self.start = time.time()
+        self.name = name
+        if speak_on_start: print(f"[{self.name}]")
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.end = time.time()
+        print(f"[{self.name}] took {self.end - self.start:.3f}s")
+
+
 def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s
 
 def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50, juststring: bool = False, arrow: str = '>', dash: str = '-', pad: str = ' '):

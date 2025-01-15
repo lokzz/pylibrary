@@ -243,6 +243,15 @@ class time_clc:
         self.end = time.time()
         print(f"[{self.name}] took {self.end - self.start:.3f}s")
 
+    def start(self, name = "", speak_on_start = False):
+        self.start = time.time()
+        self.name = name
+        if speak_on_start: print(f"[{self.name}]")
+
+    def end(self):
+        self.end = time.time()
+        print(f"[{self.name}] took {self.end - self.start:.3f}s")
+
 
 def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s
 

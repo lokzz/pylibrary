@@ -1,7 +1,7 @@
 from clint.textui import puts, colored, indent
 from threading import Timer
 from pick import pick
-import threading, colorama, keyboard, random, queue, time, io
+import threading, colorama, keyboard, random, queue, time, io, re
 
 import atexit, sys
 from blessed import Terminal
@@ -251,6 +251,44 @@ class time_clc:
     def end(self):
         self.end = time.time()
         print(f"[{self.name}] took {self.end - self.start:.3f}s")
+
+class thread_sep:
+    def __init__(self, name_map: dict[str: str] = {}):
+        """
+        name_map: dict[str: str]
+            key: thread name | use * in string for wildcards
+            value: new thread name
+        """
+    
+        self.stdout = sys.__stdout__
+        sys.stdout = self
+        
+        self.has_star = False
+        for i in name_map.keys(): 
+            if '*' in i: self.has_star = True
+        
+        if self.has_star:
+            name_mp = {}
+            for i, v in name_map.items():
+                stars = [v + n for v, n in enumerate([i for i, w in enumerate(i) if '*' in w])] # keep track of stars
+                gi = re.escape(i.replace('*', '')) # escape everything
+                stri = list(gi)
+                for y in stars: stri.insert(y, r'.*')
+                name_mp[v] = re.compile(''.join(stri))
+            self.name_map = name_mp
+        else: self.name_map = name_map
+    
+    def write(self, text):
+        thread = threading.current_thread().name
+        if self.has_star:
+            for k, v in self.name_map.items():
+                if re.match(v, thread): thread = k
+        else:
+            try: thread = self.name_map[thread]
+            except: pass
+        if text != '\n': self.stdout.write(f'{thread}: {text}\n')
+    
+    def flush(self): self.stdout.flush()
 
 
 def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s

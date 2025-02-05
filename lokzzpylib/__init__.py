@@ -10,6 +10,12 @@ try: import msvcrt, win32con, win32console
 except ImportError: windows = False
 else: windows = True
 
+from .misc import *
+# misc_functions = [ 
+#   ask_bool, ask_int, wind_getonekey,
+#   clearsc, clearinp
+# ]
+
 colorama.init()
 
 class Choice:
@@ -310,15 +316,6 @@ def progress_bar2(start_time: float, current_time: float = time.time(), timetota
     progbarstring = '█' * timepassed + '░' * int(progbarsize - timepassed) + ' ' + str(round(remains, 2)).ljust(ljust, '0') + 's'
     return progbarstring
 
-def ask_bool(prompt: str) -> bool:
-    try: return {"true": True, "yes": True, "y": True, "false": False, "no": False, "n": False}[input(prompt).lower()]
-    except KeyError: print("invalid input")
-
-def ask_int(prompt: str) -> int:
-    while True:
-        try: return int(input(prompt))
-        except ValueError: print("not a number")
-
 def printc(n: str, *d, f: bool = False, nc = False, firstclr: object = colored.blue, sepL: int = 0, sepC: str = ' ', Beg: str = colored.green('//|'), BegL: int = 4, end: str = '\n', returnstring: bool = False, stream: None = None) -> str | None:
     sep = sepC * sepL; w = ''.join(map(str, d))
     if not f: 
@@ -347,19 +344,5 @@ def formatdict(thing: dict | list , item_color: object = colored.white, key_colo
 
 def printd(n: str, d: str = '', f: bool = False, A: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.red('>>|'), BegL: int = 4):
     if A: printc(n, d, f=f, sepL=sepL, sepC=sepC, Beg=Beg, BegL=BegL)
-
-def wind_getonekey(f: bool = True) -> str:
-    if not windows: return ''
-    if f: return str(msvcrt.getch(), 'utf-8')
-    else: return msvcrt.getch()
-
-def clearsc(type: int = 1):
-    if type == 1: print('\033[2J')
-    elif type == 2: print('\n' * 25)
-
-def clearinp(t: int = 25, e: bool = False):
-    for i in range(t):
-        keyboard.press_and_release("\b")
-        if e: printc(f"on the {i + 1} backspace")
 
 if __name__ == '__main__': exit()

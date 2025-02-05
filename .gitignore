@@ -1,6 +1,7 @@
 *egg*/
 .idea/
-.vscode/
 build/
+.vscode/
+__pycache__/
 _version.py
 pypi.token

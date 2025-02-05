@@ -1,5 +1,5 @@
 from clint.textui import puts, colored, indent
-import threading, colorama, random, queue, time, io, re
+import threading, colorama, keyboard, random, queue, time, io, re
 
 import atexit, sys
 from blessed import Terminal

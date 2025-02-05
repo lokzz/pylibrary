@@ -1,7 +1,5 @@
 from clint.textui import puts, colored, indent
-from threading import Timer
-from pick import pick
-import threading, colorama, keyboard, random, queue, time, io, re
+import threading, colorama, random, queue, time, io, re
 
 import atexit, sys
 from blessed import Terminal
@@ -17,40 +15,6 @@ from .misc import *
 # ]
 
 colorama.init()
-
-class Choice:
-    def __init__(self, index: int, option: str):
-        self.index = index
-        self.option = option
-
-def choose_from_list(title: str, options: list, indi: str = "*", minselcont: int = 1) -> Choice:
-    option, index = pick(options, title, indi, min_selection_count=minselcont); index += 1
-    return Choice(index, option)
-
-class RepeatedTimer:
-    def __init__(self, interval: float, function, *args, **kwargs):
-        self._timer = None
-        self.interval = interval
-        self.function = function
-        self.args = args
-        self.kwargs = kwargs
-        self.is_running = False
-        self.start()
-
-    def _run(self):
-        self.is_running = False
-        self.start()
-        self.function(*self.args, **self.kwargs)
-
-    def start(self):
-        if not self.is_running:
-            self._timer = Timer(self.interval, self._run)
-            self._timer.start()
-            self.is_running = True
-
-    def stop(self):
-        self._timer.cancel()
-        self.is_running = False
 
 ## TAG::<AI> (AI generated code)
 class FrameBuffer:
@@ -296,8 +260,6 @@ class thread_sep:
     
     def flush(self): self.stdout.flush()
 
-
-def isdebug(args: list) -> bool: s = args.copy(); s.pop(0); return '-d' in args or '--debug' in s
 
 def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50, juststring: bool = False, arrow: str = '>', dash: str = '-', pad: str = ' '):
     fraction = current / total

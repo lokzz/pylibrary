@@ -304,7 +304,4 @@ def formatdict(thing: dict | list , item_color: object = colored.white, key_colo
     else: raise ValueError(f"{type(thing)} is not a dict or list >> '{thing}'")
     return retirmo
 
-def printd(n: str, d: str = '', f: bool = False, A: bool = False, sepL: int = 0, sepC: str = ' ', Beg: str = colored.red('>>|'), BegL: int = 4):
-    if A: printc(n, d, f=f, sepL=sepL, sepC=sepC, Beg=Beg, BegL=BegL)
-
 if __name__ == '__main__': exit()

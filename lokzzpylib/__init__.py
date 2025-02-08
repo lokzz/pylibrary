@@ -292,7 +292,7 @@ def printc(n: str, *d, f: bool = False, nc = False, firstclr: object = colored.b
             if stream == None: puts(outstr, newline=False)
             else: puts(outstr, stream=stream, newline=False)
 
-def formatdict(thing: dict | list , item_color: object = colored.white, key_color: object = colored.white) -> str:
+def formatdict(thing: dict | list , item_color: object = colored.red, key_color: object = colored.green) -> str:
     if type(thing) == dict:
         retirm = '{ '
         for k, v in thing.items(): retirm += f"{key_color(k)}: {item_color(v)}, "

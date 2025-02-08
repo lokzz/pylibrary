@@ -204,23 +204,23 @@ class slowprint(io.StringIO):
 
 class time_clc:
     def __init__(self, name = "", speak_on_start = False):
-        self.start = time.time()
+        self.startt = time.time()
         self.name = name
         if speak_on_start: print(f"[{self.name}]")
     def __enter__(self):
         return self
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.end = time.time()
-        print(f"[{self.name}] took {self.end - self.start:.3f}s")
+        self.endt = time.time()
+        print(f"[{self.name}] took {self.endt - self.startt:.3f}s")
 
     def start(self, name = "", speak_on_start = False):
-        self.start = time.time()
+        self.startt = time.time()
         self.name = name
         if speak_on_start: print(f"[{self.name}]")
 
     def end(self):
-        self.end = time.time()
-        print(f"[{self.name}] took {self.end - self.start:.3f}s")
+        self.endt = time.time()
+        print(f"[{self.name}] took {self.endt - self.startt:.3f}s")
 
 class thread_sep:
     def __init__(self, name_map: dict[str: str] = {}):

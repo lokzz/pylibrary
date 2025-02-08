@@ -9,9 +9,9 @@ except ImportError: windows = False
 else: windows = True
 
 from .misc import *
-# misc_functions = [ 
-#   ask_bool, ask_int, wind_getonekey,
-#   clearsc, clearinp
+# misc = [
+#   class = [Choice, RepeatedTimer],
+#   func = [isdebug, ask_bool, ask_int, wind_getonekey, clearsc, clearinp]
 # ]
 
 colorama.init()

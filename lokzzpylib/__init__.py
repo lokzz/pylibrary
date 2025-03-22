@@ -1,5 +1,5 @@
 from clint.textui import puts, colored, indent
-import threading, colorama, functools, keyboard, random, queue, time, io, re
+import threading, colorama, keyboard, random, queue, time, io, re
 
 import atexit, sys
 from blessed import Terminal
@@ -214,7 +214,6 @@ class time_clc:
         print(f"[{self.name}] took {self.endt - self.startt:.3f}s")
 
     def wrapper(func):
-        @functools.wraps(func)
         def wrapper(*args, **kwargs):
             start = time.time()
             result = func(*args, **kwargs)

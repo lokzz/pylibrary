@@ -237,7 +237,7 @@ class time_clc:
         return wrapper
     w = wrapper
 
-    def checkpoint(self, name, checkpoint_fmt: str | None = None):
+    def checkpoint(self, name: str, checkpoint_fmt: str | None = None):
         true_checkpoint = checkpoint_fmt or self.checkpoint_fmt
         current_time = time.time()
         time_elapsed = current_time - self.ckptimes[self.ckp_num]

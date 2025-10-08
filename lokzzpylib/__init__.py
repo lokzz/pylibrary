@@ -203,25 +203,26 @@ class slowprint(io.StringIO):
         self.stoptimer.start()
 
 class time_clc:
-    def __init__(self, name = "", speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n', checkpoint_fmt: str | None = None):
-        '''
-        speak_on_start: bool = False\n
-        start_fmt: str = '[%s]'.format(name)\n
-        result_fmt: str = '[%s] took %fs'.format(name, round(time_elapsed, 3))
-        checkpoint_fmt: str | None = None (defaults to result_fmt, same .format() inputs.)
-        '''
+    def __init__(self, name = "", speak_on_start: bool = False, 
+                start_fmt: str = '[{name}]\n',
+                result_fmt: str = '[{name}] took {time_elapsed}s\n',
+                checkpoint_fmt: str | None = '[{name} > {point_name} ({point_num})] took {time_point_elapsed}s since last checkpoint\n'
+                ):
         self.startt = time.time()
+        self.ckptimes = [self.startt]
+        self.ckp_num = 0
         self.name = name
         self.start_fmt = start_fmt
         self.result_fmt = result_fmt
         self.checkpoint_fmt = checkpoint_fmt or self.result_fmt
-        if speak_on_start: print(self.start_fmt % self.name, end='', flush=self.start_fmt.endswith('\n'))
+        if speak_on_start: print(self.start_fmt.format(name=self.name), end='', flush=self.start_fmt.endswith('\n'))
     def __enter__(self):
         return self
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.endt = time.time()
         self.time_elapsed = self.endt - self.startt
-        print(self.result_fmt % (self.name, round(self.time_elapsed, 3)), end='', flush=self.result_fmt.endswith('\n'))
+        data = {"name": self.name, "time_elapsed": round(self.time_elapsed, 2)}
+        print(self.result_fmt.format(**data), end='', flush=self.result_fmt.endswith('\n'))
 
     def wrapper(func, speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n'):
         def wrapper(*args, **kwargs):
@@ -230,20 +231,25 @@ class time_clc:
             result = func(*args, **kwargs)
             end = time.time()
             time_elapsed = end - start
-            print(result_fmt % (func.__name__, round(time_elapsed, 3)), end='', flush=result_fmt.endswith('\n'))
+            data = {"name": func.__name__, "time_elapsed": round(time_elapsed, 2)}
+            print(result_fmt.format(**data), end='', flush=result_fmt.endswith('\n'))
             return result
         return wrapper
     w = wrapper
 
     def checkpoint(self, name, checkpoint_fmt: str | None = None):
         true_checkpoint = checkpoint_fmt or self.checkpoint_fmt
-        self.endt = time.time()
-        self.time_elapsed = self.endt - self.startt
-        print(true_checkpoint % (name, round(self.time_elapsed, 3)), end='', flush=checkpoint_fmt.endswith('\n'))
+        current_time = time.time()
+        time_elapsed = current_time - self.ckptimes[self.ckp_num]
+        self.ckp_num += 1
+        self.ckptimes.append(current_time)
+        data = {"name": self.name, "point_name": name, "point_num": self.ckp_num, "time_point_elapsed": round(time_elapsed, 2), "time_elapsed": round(current_time - self.startt, 2)}
+        print(true_checkpoint.format(**data), end='', flush=checkpoint_fmt.endswith('\n'))
 
     def end(self):
         self.endt = time.time()
-        print(self.result_fmt % (self.name, round(self.time_elapsed, 3)), end='', flush=self.result_fmt.endswith('\n'))
+        data = {"name": self.name, "time_elapsed": round(self.endt - self.startt, 2)}
+        print(self.result_fmt.format(**data), end='', flush=self.result_fmt.endswith('\n'))
 
 class thread_sep:
     def __init__(self, name_map: dict[str: str] = {}):

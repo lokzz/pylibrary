@@ -203,7 +203,7 @@ class slowprint(io.StringIO):
         self.stoptimer.start()
 
 class time_clc:
-    def __init__(self, name = "", speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %fs\n'):
+    def __init__(self, name = "", speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n'):
         '''
         speak_on_start: bool = False\n
         start_fmt: str = '[%s]'.format(name)\n
@@ -221,7 +221,7 @@ class time_clc:
         self.time_elapsed = self.endt - self.startt
         print(self.result_fmt % (self.name, round(self.time_elapsed, 3)), end='', flush=self.result_fmt.endswith('\n'))
 
-    def wrapper(func, speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %fs\n'):
+    def wrapper(func, speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n'):
         def wrapper(*args, **kwargs):
             if speak_on_start: print(start_fmt % func.__name__, end='', flush=start_fmt.endswith('\n'))
             start = time.time()
@@ -233,12 +233,12 @@ class time_clc:
         return wrapper
     w = wrapper
 
-    def start(self, name = "", speak_on_start = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %fs\n'):
+    def start(self, name = "", speak_on_start = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n'):
         self.startt = time.time()
         self.name = name
         self.start_fmt = start_fmt
         self.result_fmt = result_fmt
-        if speak_on_start: print(f"[{self.name}]", end='', flush=self.start_fmt.endswith('\n'))
+        if speak_on_start: print(self.start_fmt % self.name, end='', flush=self.start_fmt.endswith('\n'))
 
     def end(self):
         self.endt = time.time()

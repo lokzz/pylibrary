@@ -203,34 +203,46 @@ class slowprint(io.StringIO):
         self.stoptimer.start()
 
 class time_clc:
-    def __init__(self, name = "", speak_on_start = False):
+    def __init__(self, name = "", speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %fs\n'):
+        '''
+        speak_on_start: bool = False\n
+        start_fmt: str = '[%s]'.format(name)\n
+        result_fmt: str = '[%s] took %fs'.format(name, round(time_elapsed, 3))
+        '''
         self.startt = time.time()
         self.name = name
-        if speak_on_start: print(f"[{self.name}]")
+        self.start_fmt = start_fmt
+        self.result_fmt = result_fmt
+        if speak_on_start: print(self.start_fmt % self.name, end='', flush=self.start_fmt.endswith('\n'))
     def __enter__(self):
         return self
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.endt = time.time()
-        print(f"[{self.name}] took {self.endt - self.startt:.3f}s")
+        self.time_elapsed = self.endt - self.startt
+        print(self.result_fmt % (self.name, round(self.time_elapsed, 3)), end='', flush=self.result_fmt.endswith('\n'))
 
-    def wrapper(func):
+    def wrapper(func, speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %fs\n'):
         def wrapper(*args, **kwargs):
+            if speak_on_start: print(start_fmt % func.__name__, end='', flush=start_fmt.endswith('\n'))
             start = time.time()
             result = func(*args, **kwargs)
             end = time.time()
-            print(f"[{func.__name__}] took {end - start:.3f}s")
+            time_elapsed = end - start
+            print(result_fmt % (func.__name__, round(time_elapsed, 3)), end='', flush=result_fmt.endswith('\n'))
             return result
         return wrapper
     w = wrapper
 
-    def start(self, name = "", speak_on_start = False):
+    def start(self, name = "", speak_on_start = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %fs\n'):
         self.startt = time.time()
         self.name = name
-        if speak_on_start: print(f"[{self.name}]")
+        self.start_fmt = start_fmt
+        self.result_fmt = result_fmt
+        if speak_on_start: print(f"[{self.name}]", end='', flush=self.start_fmt.endswith('\n'))
 
     def end(self):
         self.endt = time.time()
-        print(f"[{self.name}] took {self.endt - self.startt:.3f}s")
+        print(self.result_fmt % (self.name, round(self.time_elapsed, 3)), end='', flush=self.result_fmt.endswith('\n'))
 
 class thread_sep:
     def __init__(self, name_map: dict[str: str] = {}):

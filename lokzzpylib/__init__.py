@@ -203,16 +203,18 @@ class slowprint(io.StringIO):
         self.stoptimer.start()
 
 class time_clc:
-    def __init__(self, name = "", speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n'):
+    def __init__(self, name = "", speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n', checkpoint_fmt: str | None = None):
         '''
         speak_on_start: bool = False\n
         start_fmt: str = '[%s]'.format(name)\n
         result_fmt: str = '[%s] took %fs'.format(name, round(time_elapsed, 3))
+        checkpoint_fmt: str | None = None (defaults to result_fmt, same .format() inputs.)
         '''
         self.startt = time.time()
         self.name = name
         self.start_fmt = start_fmt
         self.result_fmt = result_fmt
+        self.checkpoint_fmt = checkpoint_fmt or self.result_fmt
         if speak_on_start: print(self.start_fmt % self.name, end='', flush=self.start_fmt.endswith('\n'))
     def __enter__(self):
         return self
@@ -233,12 +235,11 @@ class time_clc:
         return wrapper
     w = wrapper
 
-    def start(self, name = "", speak_on_start = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n'):
-        self.startt = time.time()
-        self.name = name
-        self.start_fmt = start_fmt
-        self.result_fmt = result_fmt
-        if speak_on_start: print(self.start_fmt % self.name, end='', flush=self.start_fmt.endswith('\n'))
+    def checkpoint(self, name, checkpoint_fmt: str | None = None):
+        true_checkpoint = checkpoint_fmt or self.checkpoint_fmt
+        self.endt = time.time()
+        self.time_elapsed = self.endt - self.startt
+        print(true_checkpoint % (name, round(self.time_elapsed, 3)), end='', flush=checkpoint_fmt.endswith('\n'))
 
     def end(self):
         self.endt = time.time()

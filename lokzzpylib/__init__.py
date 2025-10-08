@@ -244,7 +244,7 @@ class time_clc:
         self.ckp_num += 1
         self.ckptimes.append(current_time)
         data = {"name": self.name, "point_name": name, "point_num": self.ckp_num, "time_point_elapsed": round(time_elapsed, 2), "time_elapsed": round(current_time - self.startt, 2)}
-        print(true_checkpoint.format(**data), end='', flush=checkpoint_fmt.endswith('\n'))
+        print(true_checkpoint.format(**data), end='', flush=true_checkpoint.endswith('\n'))
 
     def end(self):
         self.endt = time.time()

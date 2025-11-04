@@ -1,6 +1,6 @@
 from .__init__ import printc
 from .__init__ import windows
-from .__init__ import msvcrt, keyboard
+if windows: from .__init__ import msvcrt, keyboard
 # how the fuck was this even allowed? circular import
 from threading import Timer
 from pick import pick

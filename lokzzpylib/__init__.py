@@ -232,8 +232,8 @@ class time_clc:
             result = func(*args, **kwargs)
             end = time.time()
             time_elapsed = end - start
-            self.data = {"name": func.__name__, "time_elapsed": round(time_elapsed, 2)}
-            print(result_fmt.format(**self.data), end='', flush=result_fmt.endswith('\n'))
+            data = {"name": func.__name__, "time_elapsed": round(time_elapsed, 2)}
+            print(result_fmt.format(**data), end='', flush=result_fmt.endswith('\n'))
             return result
         return wrapper
     w = wrapper

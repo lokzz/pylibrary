@@ -202,6 +202,7 @@ class slowprint(io.StringIO):
         self.stoptimer = RepeatedTimer(0.1, function=self._stop)
         self.stoptimer.start()
 
+# TODO: refactor end() and start(), and consolidate all 3 different entrance methods...
 class time_clc:
     def __init__(self, name = "", speak_on_start: bool = False, 
                 start_fmt: str = '[{name}]\n',
@@ -221,8 +222,8 @@ class time_clc:
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.endt = time.time()
         self.time_elapsed = self.endt - self.startt
-        data = {"name": self.name, "time_elapsed": round(self.time_elapsed, 2)}
-        print(self.result_fmt.format(**data), end='', flush=self.result_fmt.endswith('\n'))
+        self.data = {"name": self.name, "time_elapsed": round(self.time_elapsed, 2)}
+        print(self.result_fmt.format(**self.data), end='', flush=self.result_fmt.endswith('\n'))
 
     def wrapper(func, speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n'):
         def wrapper(*args, **kwargs):
@@ -231,8 +232,8 @@ class time_clc:
             result = func(*args, **kwargs)
             end = time.time()
             time_elapsed = end - start
-            data = {"name": func.__name__, "time_elapsed": round(time_elapsed, 2)}
-            print(result_fmt.format(**data), end='', flush=result_fmt.endswith('\n'))
+            self.data = {"name": func.__name__, "time_elapsed": round(time_elapsed, 2)}
+            print(result_fmt.format(**self.data), end='', flush=result_fmt.endswith('\n'))
             return result
         return wrapper
     w = wrapper
@@ -243,13 +244,13 @@ class time_clc:
         time_elapsed = current_time - self.ckptimes[self.ckp_num]
         self.ckp_num += 1
         self.ckptimes.append(current_time)
-        data = {"name": self.name, "point_name": name, "point_num": self.ckp_num, "time_point_elapsed": round(time_elapsed, 2), "time_elapsed": round(current_time - self.startt, 2)}
-        print(true_checkpoint.format(**data), end='', flush=true_checkpoint.endswith('\n'))
+        self.cur_cpkt_data = {"name": self.name, "point_name": name, "point_num": self.ckp_num, "time_point_elapsed": round(time_elapsed, 2), "time_elapsed": round(current_time - self.startt, 2)}
+        print(true_checkpoint.format(**self.cur_cpkt_data), end='', flush=true_checkpoint.endswith('\n'))
 
     def end(self):
         self.endt = time.time()
-        data = {"name": self.name, "time_elapsed": round(self.endt - self.startt, 2)}
-        print(self.result_fmt.format(**data), end='', flush=self.result_fmt.endswith('\n'))
+        self.data = {"name": self.name, "time_elapsed": round(self.endt - self.startt, 2)}
+        print(self.result_fmt.format(**self.data), end='', flush=self.result_fmt.endswith('\n'))
 
 class thread_sep:
     def __init__(self, name_map: dict[str: str] = {}):

@@ -225,19 +225,6 @@ class time_clc:
         self.data = {"name": self.name, "time_elapsed": round(self.time_elapsed, 2)}
         print(self.result_fmt.format(**self.data), end='', flush=self.result_fmt.endswith('\n'))
 
-    def wrapper(func, speak_on_start: bool = False, start_fmt: str = '[%s]\n', result_fmt: str = '[%s] took %.2fs\n'):
-        def wrapper(*args, **kwargs):
-            if speak_on_start: print(start_fmt % func.__name__, end='', flush=start_fmt.endswith('\n'))
-            start = time.time()
-            result = func(*args, **kwargs)
-            end = time.time()
-            time_elapsed = end - start
-            data = {"name": func.__name__, "time_elapsed": round(time_elapsed, 2)}
-            print(result_fmt.format(**data), end='', flush=result_fmt.endswith('\n'))
-            return result
-        return wrapper
-    w = wrapper
-
     def checkpoint(self, name: str, checkpoint_fmt: str | None = None):
         true_checkpoint = checkpoint_fmt or self.checkpoint_fmt
         current_time = time.time()

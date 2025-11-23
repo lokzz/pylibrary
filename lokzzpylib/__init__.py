@@ -1,10 +1,10 @@
 from clint.textui import puts, colored, indent
-import threading, colorama, keyboard, random, queue, time, io, re
+import threading, colorama, keyboard, random, queue, time, ujson, io, re
 
 import atexit, sys
 from blessed import Terminal
 
-try: import msvcrt, win32con, win32console
+try: import win32con, win32console
 except ImportError: windows = False
 else: windows = True
 
@@ -277,6 +277,9 @@ class thread_sep:
     
     def flush(self): self.stdout.flush()
 
+
+def bdumps(payload: dict, indent: int = 4):
+    return re.sub(r"(?<=\[)[^\[\]]+(?=])", lambda m: " ".join(m.group().split()), ujson.dumps(payload, indent=4))
 
 def progress_bar(current: int, total: int, name: str = "Progress", bar_length: int = 50, juststring: bool = False, arrow: str = '>', dash: str = '-', pad: str = ' '):
     fraction = current / total

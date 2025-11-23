@@ -1,9 +1,11 @@
 from .__init__ import printc
-from .__init__ import windows
-if windows: from .__init__ import msvcrt, keyboard
 # how the fuck was this even allowed? circular import
+try: import msvcrt
+except ImportError: windows = False
+else: windows = True
 from threading import Timer
 from pick import pick
+import keyboard
 
 
 ## <misc.class>

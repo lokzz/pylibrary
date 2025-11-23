@@ -202,7 +202,7 @@ class slowprint(io.StringIO):
         self.stoptimer = RepeatedTimer(0.1, function=self._stop)
         self.stoptimer.start()
 
-# bad: can't initalize without starting this...
+# bad: can't initalize without starting it...
 class time_clc:
     def __init__(self, name = "", speak_on_start: bool = False, 
                 start_fmt: str = '[{name}]\n',

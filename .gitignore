@@ -2,4 +2,5 @@
 .idea/
 .vscode/
 build/
+_version.py
 pypi.token

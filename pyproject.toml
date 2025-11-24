@@ -24,7 +24,8 @@ dependencies = [
 
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: MIT",
+    "Requires-Python: >=3.6",
+    "License-Expression: MIT",
     "Operating System :: OS Independent",
 ]
 

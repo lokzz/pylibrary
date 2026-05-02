@@ -5,3 +5,5 @@ build/
 __pycache__/
 _version.py
 pypi.token
+
+lookintothis.py

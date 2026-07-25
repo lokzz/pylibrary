@@ -13,6 +13,7 @@ from .misc import *
 #   class = [Choice, RepeatedTimer],
 #   func = [isdebug, ask_bool, ask_int, wind_getonekey, clearsc, clearinp]
 # ]
+import solo
 from .solo import *
 # solo = [
 #   libs = [time]

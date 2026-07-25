@@ -13,7 +13,7 @@ from .misc import *
 #   class = [Choice, RepeatedTimer],
 #   func = [isdebug, ask_bool, ask_int, wind_getonekey, clearsc, clearinp]
 # ]
-import solo
+# import solo
 from .solo import *
 # solo = [
 #   libs = [time]
@@ -212,7 +212,7 @@ class slowprint(io.StringIO):
 
 # bad: can't initalize without starting it...
 # time_clc is now in solo.py to avoid the major bullshit here
-time_clc = solo.time_clc
+# time_clc = solo.time_clc
 
 class thread_sep:
     def __init__(self, name_map: dict[str: str] = {}):
